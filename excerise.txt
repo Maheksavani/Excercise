@@ -1,0 +1,77 @@
+=================== Excercise - 1 ==============================
+
+declare
+sid exe.id%TYPE;
+sname exe.name%TYPE;
+cursor cur_str is select * from exe;
+begin
+	open cur_str;
+	if cur_str%ISOPEN then
+	loop
+		fetch cur_str%ISOPEN then
+		loop
+			fetch cur_str into sid,sname;
+			exit when cur_str%NOTFOUND;
+			dbms_output.put_line('id : '||sid||'name : '||sname);
+		end loop;
+		end if;
+		close cur_str;
+end;
+
+=================== Excercise - 2 ==============================
+
+declare
+id emp_exe.id%TYPE;
+name emp_exe.name%TYPE;
+mail emp_exe.mail%TYPE;
+cursor cur_emp is select * from emp_exe;
+begin
+	open cur_emp;
+	if cur_emp%ISOPEN then
+	loop
+		fetch cur_emp%ISOPEN then
+		loop
+			fetch cur_emp into id,name,mail;
+			exit when cur_emp%NOTFOUND;
+			dbms_output.put_line('id : '||id||'name : '||name||' Email : '||mail);
+		end loop;
+		end if;
+		close cur_emp;
+end;
+
+=================== Excercise - 3 ==============================
+
+create or replace procedure exe1(a number,b number) is
+begin
+	if a>b then
+		dbms_output.put_line('Max is : '||a);
+	else
+		dbms_output.put_line('Max is : '||b);
+	end if;
+end;
+
+declare
+begin
+exe1(10,25);
+end;
+
+=================== Excercise - 4 ==============================
+
+create or replace procedure con(a varchar2,b varchar2) is
+begin
+	dbms_output.put_line(a||b);
+end;
+
+declare
+begin
+	con('Mahek','Savani');
+end;
+
+=================== Excercise - 7 ==============================
+create or replace trigger tgr before delete on emp for each row
+declare
+begin
+if :old.salary>100 then
+	insert into log values(:old.emp_id,:old.emp_name,:old.salary);
+end if;
+end;
